@@ -1,0 +1,20 @@
+docker run -it \
+  --name qwen-lora-train \
+  --privileged \
+  --network host \
+  --security-opt label=disable \
+  --shm-size=64g \
+  --device=/dev/davinci_manager \
+  --device=/dev/devmm_svm \
+  --device=/dev/hisi_hdc \
+  -v /data/train_qwen:/workspace \
+  -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
+  -v /etc/ascend_install.info:/etc/ascend_install.info \
+  -v /etc/vnpu.cfg:/etc/vnpu.cfg \
+  -v /usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info \
+  -v /usr/local/dcmi:/usr/local/dcmi \
+  -v /usr/local/Ascend/driver/lib64/common:/usr/local/Ascend/driver/lib64/common \
+  -v /usr/local/Ascend/driver/lib64/driver:/usr/local/Ascend/driver/lib64/driver \
+  -v /usr/local/openmpi:/usr/local/openmpi \
+  quay.io/ascend/vllm-ascend:v0.9.1 \
+  bash

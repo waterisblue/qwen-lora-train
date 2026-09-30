@@ -1,0 +1,30 @@
+cd /workspace
+
+python - <<'PY'
+import torch
+import torch_npu
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+model_path = "/workspace/models/Qwen3-8B"
+
+print("torch:", torch.__version__)
+print("torch_npu:", torch_npu.__version__)
+print("npu:", torch.npu.is_available())
+print("npu count:", torch.npu.device_count())
+
+tokenizer = AutoTokenizer.from_pretrained(
+    model_path,
+    local_files_only=True,
+    trust_remote_code=True,
+)
+
+model = AutoModelForCausalLM.from_pretrained(
+    model_path,
+    local_files_only=True,
+    trust_remote_code=True,
+    torch_dtype=torch.float16,
+)
+
+print("MODEL LOAD OK")
+print(model.__class__.__name__)
+PY
